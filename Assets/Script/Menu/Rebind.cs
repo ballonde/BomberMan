@@ -12,9 +12,9 @@ public class Rebind : MonoBehaviour
     //private InputActionReference ActionToRemap1;
 
     [SerializeField]
-    private TextMeshProUGUI buttonText;
+    private TextMeshProUGUI _buttonText;
 
-    private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
 
 
 
@@ -30,12 +30,12 @@ public class Rebind : MonoBehaviour
 
         ActionToRemap.action.Disable();
 
-        buttonText.text = "Press new Input";
+        _buttonText.text = "Press new Input";
 
-        rebindingOperation = ActionToRemap.action.PerformInteractiveRebinding().OnMatchWaitForAnother(0.1f).OnComplete(operation =>
+        _rebindingOperation = ActionToRemap.action.PerformInteractiveRebinding().OnMatchWaitForAnother(0.1f).OnComplete(operation =>
         {
-            buttonText.text = InputControlPath.ToHumanReadableString(ActionToRemap.action.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
-            rebindingOperation.Dispose();
+            _buttonText.text = InputControlPath.ToHumanReadableString(ActionToRemap.action.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+            _rebindingOperation.Dispose();
             ActionToRemap.action.Enable();
         }).Start();
 

@@ -12,13 +12,14 @@ public class Grille : MonoBehaviour
     public List<Vector2> listeUnbrokenWallPos;
     // Start is called before the first frame update
     [SerializeField]
-    private int maxTailleGrilleX=18, minTailleGrilleX = -16, maxTailleGrilleY = 10, minTailleGrilleY = -10;
+    private int _maxTailleGrilleX=18, _minTailleGrilleX = -16, _maxTailleGrilleY = 10, _minTailleGrilleY = -10;
+
     void Start()
     {
 
-        for (int j = maxTailleGrilleY; j >= minTailleGrilleY; j--)
+        for (int j = _maxTailleGrilleY; j >= _minTailleGrilleY; j--)
         {
-            for (int i = minTailleGrilleX; i <= maxTailleGrilleX; i++)
+            for (int i = _minTailleGrilleX; i <= _maxTailleGrilleX; i++)
             {
                 var spawnObject = Random.Range(0, 100);
                 if (i%2==0 && j%2!=0)
@@ -40,7 +41,7 @@ public class Grille : MonoBehaviour
         GameObject.FindGameObjectWithTag("BuffManager").GetComponent<BuffManager>().initializedBuff();
     }
 
-    public void SpawnHole()
+    public void SpawnHole()//create a hole randomly
     {
         var spawnHoleCoord = listePosLibre[Random.Range(0, listePosLibre.Count)];
         Instantiate(hole, spawnHoleCoord, Quaternion.identity);
@@ -48,17 +49,11 @@ public class Grille : MonoBehaviour
 
     }
 
-    public void SpawnWall()
+    public void SpawnWall()//create a wall at a certain position
     {
         var spawnWallCoord = listePosLibre[Random.Range(0,listePosLibre.Count)];
         Instantiate(brokenWall, spawnWallCoord, Quaternion.identity);
         listePosLibre.Remove(spawnWallCoord);
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

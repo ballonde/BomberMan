@@ -8,15 +8,16 @@ using TMPro;
 public class EndManager : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI displayWinner;
+    private TextMeshProUGUI _displayWinner;
+
     // Start is called before the first frame update
     void Start()
     {
         var winnerGame = SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("Winner");
-        displayWinner.SetText(winnerGame);
+        _displayWinner.SetText(winnerGame);
     }
 
-     public void BackToMEnu()
+     public void BackToMEnu()//launch the start scene
     {
         var choiceMode = SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("choiceMode");
         if (choiceMode == "Solo")
@@ -33,7 +34,7 @@ public class EndManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void Restart()
+    public void Restart()//reload the game with the same parameter
     {
         var choiceMode=SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("choiceMode");
         if (choiceMode == "Solo")

@@ -5,16 +5,16 @@ using UnityEngine;
 public class PickUpShield : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource takeBuff;
+    private AudioSource _takeBuff;
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player"))//get buff of shield
         {
             other.GetComponent<Player>().ActiveShield();
             GameObject.FindGameObjectWithTag("Grille").GetComponent<Grille>().listePosLibre.Add(other.transform.position);
             GameObject.FindGameObjectWithTag("BuffManager").GetComponent<BuffManager>().SpawnBuff();
 
-            takeBuff.Play();
+            _takeBuff.Play();
             Destroy(gameObject);
         }
     }

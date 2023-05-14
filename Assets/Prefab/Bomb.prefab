@@ -49,8 +49,8 @@ MonoBehaviour:
   grille: {fileID: 0}
   exp: {fileID: 4170865230762472181, guid: 2c7113850f66aed4ebaaad47d531e60c, type: 3}
   range: 0
-  delayExplosion: 2
-  degat: 10
+  _delayExplosion: 0
+  _degat: 0
   playerBomb: {fileID: 0}
 --- !u!212 &5446941449809966414
 SpriteRenderer:
@@ -168,6 +168,6 @@ MonoBehaviour:
   grille: {fileID: 0}
   exp: {fileID: 4170865230762472181, guid: 2c7113850f66aed4ebaaad47d531e60c, type: 3}
   range: 2
-  delayExplosion: 2
-  degat: 1
+  _delayExplosion: 2
+  _degat: 1
   playerBomb: {fileID: 0}

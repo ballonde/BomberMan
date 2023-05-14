@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6456b10214fbae40aad809ef8a59940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  takeBuff: {fileID: 1214482502534051995}
+  _takeBuff: {fileID: 1214482502534051995}
 --- !u!82 &1214482502534051995
 AudioSource:
   m_ObjectHideFlags: 0

@@ -5,8 +5,8 @@ using UnityEngine;
 public class PickUpNbBomb : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource takeBuff;
-    void OnTriggerEnter2D(Collider2D other)
+    private AudioSource _takeBuff;
+    void OnTriggerEnter2D(Collider2D other)//get buff increase number of Bomb
     {
         if (other.CompareTag("Player"))
         {
@@ -15,7 +15,7 @@ public class PickUpNbBomb : MonoBehaviour
             GameObject.FindGameObjectWithTag("BuffManager").GetComponent<BuffManager>().SpawnBuff();
             GameObject.FindGameObjectWithTag("Grille").GetComponent<Grille>().listePosLibre.Add(other.transform.position);
 
-            takeBuff.Play();
+            _takeBuff.Play();
 
             Destroy(gameObject);
         }

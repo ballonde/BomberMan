@@ -7,76 +7,75 @@ using UnityEngine.UI;
 public class MenuButton : MonoBehaviour
 {
     [SerializeField]
-    private Image menuMulti;
+    private Image _menuMulti;
 
     [SerializeField]
-    private GameObject menuChoiceLife, menuChoiceTime, menuRebind;
+    private GameObject _menuChoiceLife, _menuChoiceTime, _menuRebind;
 
+    private string _choiceMode;
+    private float _valueChoice;
 
-    private string choiceMode;
-    private float valueChoice;
-
-    public void ButtonSolo()
+    public void ButtonSolo()//launch a solo game 
     {
         SaveBetweenscene.GetGlobalThis().globalString.CreateElement("Solo", "choiceMode");
         SceneManager.LoadScene(1);
     }
 
-    public void ButtonMultiplayer()
+    public void ButtonMultiplayer()//launch a mutiplayer game with parameter
     {
-        SaveBetweenscene.GetGlobalThis().globalString.CreateElement(choiceMode, "choiceMode");
-        SaveBetweenscene.GetGlobalThis().globalFloat.CreateElement(valueChoice, "valueMode");
+        SaveBetweenscene.GetGlobalThis().globalString.CreateElement(_choiceMode, "choiceMode");
+        SaveBetweenscene.GetGlobalThis().globalFloat.CreateElement(_valueChoice, "valueMode");
         SceneManager.LoadScene(2);
     }
 
-    public void DisplayMenuMultiplayer()
+    public void DisplayMenuMultiplayer()//display parameter choice for multiplayer game
     {
-        menuMulti.gameObject.SetActive(true);
+        _menuMulti.gameObject.SetActive(true);
     }
 
-    public void BackDisplayMenuMultiplayer()
+    public void BackDisplayMenuMultiplayer()//disable parameter choice for multiplayer game
     {
-        menuMulti.gameObject.SetActive(false);
+        _menuMulti.gameObject.SetActive(false);
     }
 
-    public void DisplayLifeChoice(bool active)
+    public void DisplayLifeChoice(bool active) //display parameter choice of number of life
     {
         if (active)
         {
-            menuChoiceLife.gameObject.SetActive(true);
-            choiceMode = "Life";
+            _menuChoiceLife.gameObject.SetActive(true);
+            _choiceMode = "Life";
         }
         else
         {
-            menuChoiceLife.gameObject.SetActive(false);
+            _menuChoiceLife.gameObject.SetActive(false);
         }
       
     }
 
-    public void DisplayTimeChoice(bool active)
+    public void DisplayTimeChoice(bool active)//display parameter choice of number of time
     {
         if (active)
         {
-            menuChoiceTime.gameObject.SetActive(true);
-            choiceMode = "Time";
+            _menuChoiceTime.gameObject.SetActive(true);
+            _choiceMode = "Time";
         }
         else
         {
-            menuChoiceTime.gameObject.SetActive(false);
+            _menuChoiceTime.gameObject.SetActive(false);
         }
     }
 
     public void GetValueToggle(float value)
     {
-        valueChoice=value;
+        _valueChoice=value;
     }
 
     public void ActiveMenuRebind()
     {
-        menuRebind.gameObject.SetActive(true);
+        _menuRebind.gameObject.SetActive(true);
     }
     public void DisableMenuRebind()
     {
-        menuRebind.gameObject.SetActive(false);
+        _menuRebind.gameObject.SetActive(false);
     }
 }

@@ -6,36 +6,34 @@ public class Explosion : MonoBehaviour
 {
 
     [SerializeField]
-    private AudioSource explo;
+    private AudioSource _exploSound;
 
-
-    // Start is called before the first frame update
-    [SerializeField]
     public float degat;
 
     [SerializeField]
-    private float delayExplosion;
-    private float startTimer;
+    private float _delayExplosion;
+    private float _startTimer;
 
     public bool colMur=false;
 
     public Player playerBomb;
+
     void Start()
     {
-        startTimer = Time.time;
-        explo.Play();
+        _startTimer = Time.time;
+        _exploSound.Play();
     }
 
     // Update is called once per frame
-    void Update()
+    void Update()//chec end timer
     {
-        if (Time.time >= delayExplosion + startTimer)
+        if (Time.time >= _delayExplosion + _startTimer)
         {
             Destroy(gameObject);
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)//effet of explosion on everything
     {
         if (other.CompareTag("Player"))
         {

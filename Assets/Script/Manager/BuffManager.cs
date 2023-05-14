@@ -11,13 +11,13 @@ public class BuffManager : MonoBehaviour
     public GameObject grille;
 
     [SerializeField]
-    private int nbBonus;
-    // Start is called before the first frame update
-    public void initializedBuff()
+    private int _nbBonus;
+
+    public void initializedBuff()//create a number a buff on the map
     {
         grille = GameObject.FindGameObjectWithTag("Grille");
 
-        for (int i = 0; i <= nbBonus; i++)
+        for (int i = 0; i <= _nbBonus; i++)
         {
             var spawnBuff = listeBuffSpawnable[Random.Range(0, listeBuffSpawnable.Count)];
             var spawnBuffCoord = grille.GetComponent<Grille>().listePosLibre[Random.Range(0, grille.GetComponent<Grille>().listePosLibre.Count)];
@@ -27,7 +27,7 @@ public class BuffManager : MonoBehaviour
         }
     }
 
-    public void SpawnBuff()
+    public void SpawnBuff()//create a buff randomly in position and in effect
     {
         grille = GameObject.FindGameObjectWithTag("Grille");
 
@@ -37,11 +37,11 @@ public class BuffManager : MonoBehaviour
 
         Instantiate(spawnBuff, spawnBuffCoord, Quaternion.identity);
 
-        nbBonus++;
+        _nbBonus++;
     }
-    public int GetNbBuff()
-    {
-        return nbBonus;
-    }
+        public int GetNbBuff()
+        {
+            return _nbBonus;
+        }
 
 }

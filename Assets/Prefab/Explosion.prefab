@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9655566912a742244aa6574f9e360670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explo: {fileID: 310840573611402636}
-  degat: 0
-  delayExplosion: 0.3
+  _exploSound: {fileID: 310840573611402636}
+  degat: 1
+  _delayExplosion: 0.5
   colMur: 0
   playerBomb: {fileID: 0}
 --- !u!82 &310840573611402636

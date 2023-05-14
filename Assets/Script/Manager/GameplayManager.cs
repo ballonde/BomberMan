@@ -8,79 +8,79 @@ public class GameplayManager : MonoBehaviour
 {
 
     [SerializeField]
-    private TextMeshProUGUI displayChrono;
-    private float timerGame;
-    private float startTimerGame;
+    private TextMeshProUGUI _displayChrono;
+    private float _timerGame;
+    private float _startTimerGame;
 
     [SerializeField]
-    private Player Player1, Player2, Player3, Player4;
+    private Player _Player1, _Player2;
 
-    private string choiceMode;
-    private float valueChoice;
+    private string _choiceMode;
+    private float _valueChoice;
     private int nbPlayer;
 
 
-    private float valueMin;
-    private float valueSec;
+    private float _valueMin;
+    private float _valueSec;
 
-    private float timerWall;
+    private float _timerWall;
 
     // Start is called before the first frame update
     void Start()
     {
-        choiceMode=SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("choiceMode");
+        _choiceMode=SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("choiceMode");
 
 
-        if (choiceMode == "Solo")
+        if (_choiceMode == "Solo")
         {
             GameObject.FindGameObjectWithTag("Grille").GetComponent<Grille>().SpawnHole();
         }
-        else if(choiceMode == "Time")
+        else if(_choiceMode == "Time")
         {
-            valueChoice = SaveBetweenscene.GetGlobalThis().globalFloat.GetElementByID("valueMode");
-            displayChrono.gameObject.SetActive(true);
-            timerGame = valueChoice * 60;
-            startTimerGame = Time.time;
-            valueMin = valueChoice;
-            valueSec = 0;
+            _valueChoice = SaveBetweenscene.GetGlobalThis().globalFloat.GetElementByID("valueMode");
+            _displayChrono.gameObject.SetActive(true);
+            _timerGame = _valueChoice * 60;
+            _startTimerGame = Time.time;
+            _valueMin = _valueChoice;
+            _valueSec = 0;
         }
 
 
-        timerWall = Time.time;
+        _timerWall = Time.time;
     }
 
     // Update is called once per frame
-    void Update()
+    void Update()//check the winning condition depending of the type of game
     {
 
-        if (Time.time >= 5 + timerWall)
+        if (Time.time >= 5 + _timerWall)
         {
-            timerWall = Time.time;
+            _timerWall = Time.time;
             GameObject.FindGameObjectWithTag("Grille").GetComponent<Grille>().SpawnWall();
         }
 
 
-        if (choiceMode == "Time")
+        if (_choiceMode == "Time")
         {
-            valueSec -= Time.deltaTime;
+            _valueSec -= Time.deltaTime;
 
-            displayChrono.SetText((valueMin).ToString("F0") + ":" + (valueSec).ToString("F0"));
+            _displayChrono.SetText((_valueMin).ToString("F0") + ":" + (_valueSec).ToString("F0"));
 
         }
 
-        if (choiceMode == "Time" && valueSec<=0)
+        if (_choiceMode == "Time" && _valueSec<=0)
         {
-            valueMin--;
-            valueSec = 60;
+            _valueMin--;
+            _valueSec = 60;
         }
 
-        if (choiceMode == "Time" && valueMin<0)
+        if (_choiceMode == "Time" && _valueMin<0)
         {
-            if(Player1.scorekill>Player2.scorekill)
+            if(_Player1.scorekill>_Player2.scorekill)
             {
                 SaveBetweenscene.GetGlobalThis().globalString.CreateElement("Player1","Winner");
             }
-            else if (Player2.scorekill > Player1.scorekill)
+            else if (_Player2.scorekill > _Player1.scorekill)
             {
                 SaveBetweenscene.GetGlobalThis().globalString.CreateElement("Player2", "Winner");
             }

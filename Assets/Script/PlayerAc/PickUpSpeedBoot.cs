@@ -5,8 +5,8 @@ using UnityEngine;
 public class PickUpSpeedBoot : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource takeBuff;
-    void OnTriggerEnter2D(Collider2D other)
+    private AudioSource _takeBuff;
+    void OnTriggerEnter2D(Collider2D other)//increase speed of player
     {
         if (other.CompareTag("Player"))
         {
@@ -15,7 +15,7 @@ public class PickUpSpeedBoot : MonoBehaviour
             GameObject.FindGameObjectWithTag("BuffManager").GetComponent<BuffManager>().SpawnBuff();
             GameObject.FindGameObjectWithTag("Grille").GetComponent<Grille>().listePosLibre.Add(other.transform.position);
 
-            takeBuff.Play();
+            _takeBuff.Play();
             Destroy(gameObject);
         }
     }

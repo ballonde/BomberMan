@@ -5,99 +5,102 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Composites;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource shieldUse,damageTakenSound;
+    private AudioSource _shieldUse,_damageTakenSound;
 
     public GameObject bomb;
 
-    private Vector2 movement;
+    private Vector2 _movement;
     public float playerMoveSpeed;
     public float speedBootModifier=1;
-    private Rigidbody2D playerRigidbody;
+    private Rigidbody2D _playerRigidbody;
 
     public bool shield=false;
     public bool speedBoot = false;
 
     [SerializeField]
-    private Image lifeBar;
+    private Image _lifeBar;
     public Image shieldIcone;
     public Image speedBootIcone;
 
 
     [SerializeField]
-    private float durationSpeedBoot;
-    private float startSpeedBoot;
+    private float _durationSpeedBoot;
+    private float _startSpeedBoot;
 
     [SerializeField]
-    private float life, maxLife;
+    private float _life, _maxLife;
 
-    private float nbLifeCurrent;
-    private float nbLifeMax;
+    private float _nbLifeCurrent;
 
     public int scorekill=0;
+    private float _nbLifeMax;
 
 
     [SerializeField]
-    private TextMeshProUGUI DisplayLifeOrScore;
+    private TextMeshProUGUI _DisplayLifeOrScore;
 
-    private float valueMode;
-    private string choiceMode;
+    private float _valueMode;
+    private string _choiceMode;
 
-    private Vector2 mouvementInput;
+    private Vector2 _mouvementInput;
 
     public int nbBombDispo = 1;
 
     public bool dead=false;
+
     // Start is called before the first frame update
     void Start()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
+        _playerRigidbody = GetComponent<Rigidbody2D>();
         speedBootIcone.enabled = false;
         shieldIcone.enabled = false;
-        DisplayLifeOrScore.SetText("0");
+        _DisplayLifeOrScore.SetText("0");
 
-        choiceMode = SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("choiceMode");
-        if (choiceMode == "Time")
+        _choiceMode = SaveBetweenscene.GetGlobalThis().globalString.GetElementByID("choiceMode");
+        if (_choiceMode == "Time")
         {
             SetScorePlayer(0);
-        }else if (choiceMode == "Life")
+        }else if (_choiceMode == "Life")
         {
-            valueMode = SaveBetweenscene.GetGlobalThis().globalFloat.GetElementByID("valueMode");
-            SetLifePlayer(valueMode);
+            _valueMode = SaveBetweenscene.GetGlobalThis().globalFloat.GetElementByID("valueMode");
+            SetLifePlayer(_valueMode);
         }
         GameObject.FindGameObjectWithTag("SpawnPlayerManager").GetComponent<SpawnPlayerManager>().SpawnPlayer(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update()//movement
     {
-        //movement.x = Input.GetAxisRaw("Horizontal");
-        //movement.y = Input.GetAxisRaw("Vertical");
+        _mouvementInput.x = Input.GetAxisRaw("Horizontal");
+        _mouvementInput.y = Input.GetAxisRaw("Vertical");
         float mouvSpeedTotal = playerMoveSpeed * Time.fixedDeltaTime;
-        playerRigidbody.MovePosition(playerRigidbody.position + mouvementInput * mouvSpeedTotal*speedBootModifier);
+        _playerRigidbody.MovePosition(_playerRigidbody.position + _mouvementInput * mouvSpeedTotal*speedBootModifier);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) & nbBombDispo > 0)
         {
-
-            Instantiate(bomb, new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)), Quaternion.identity);
+            var tmp = Instantiate(bomb, new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)), Quaternion.identity);
+            tmp.GetComponent<Bombe>().playerBomb = this;
+            nbBombDispo--;
         }
 
-        if(speedBoot && Time.time >= durationSpeedBoot + startSpeedBoot)
+        if(speedBoot && Time.time >= _durationSpeedBoot + _startSpeedBoot)
         {
             speedBootModifier = 1;
             speedBoot = false;
             speedBootIcone.enabled = false;
         }
     }
-    public void MouvPlayer(InputAction.CallbackContext context)
+
+    public void MouvPlayer(InputAction.CallbackContext context)//mouvPlayer with controller
     {
-        mouvementInput = context.ReadValue<Vector2>();
+        _mouvementInput = context.ReadValue<Vector2>();
     }
 
-    public void InvokeBomb(InputAction.CallbackContext context)
+    public void InvokeBomb(InputAction.CallbackContext context)//create bomb with controller
     {
 
         if (context.action.triggered && nbBombDispo>0)
@@ -108,28 +111,27 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    public void TakeDamage(float damage, Player playerBomb)
+    public void TakeDamage(float damage, Player playerBomb)//player take damage
     {
         if (shield)
         {
             shield = false;
             shieldIcone.enabled = false;
-            shieldUse.Play();
+            _shieldUse.Play();
         }
         else
         {
-            life = life - damage;
-            lifeBar.fillAmount = life / maxLife;
-            damageTakenSound.Play();
-            if (life <= 0)
+            _life = _life - damage;
+            _lifeBar.fillAmount = _life / _maxLife;
+            _damageTakenSound.Play();
+            if (_life <= 0)
             {
-                if (playerBomb != this && choiceMode == "Time")
+                if (playerBomb != this && _choiceMode == "Time")
                 {
                     playerBomb.IncreaseScorePlayer(1);
                 }
 
-                if (choiceMode == "Life")
+                if (_choiceMode == "Life")
                 {
                     DecreaseLifePlayer(1);
                 }
@@ -145,7 +147,7 @@ public class Player : MonoBehaviour
         speedBootModifier=2;
         speedBoot = true;
         speedBootIcone.enabled = true;
-        startSpeedBoot = Time.time;
+        _startSpeedBoot = Time.time;
     }
 
     public void ActiveShield()
@@ -155,8 +157,8 @@ public class Player : MonoBehaviour
     }
     public void ResetPlayer()
     {
-        life = maxLife;
-        lifeBar.fillAmount = life / maxLife;
+        _life = _maxLife;
+        _lifeBar.fillAmount = _life / _maxLife;
         shield = false;
         speedBoot = false;
         nbBombDispo = 1;
@@ -164,9 +166,9 @@ public class Player : MonoBehaviour
 
     public void DecreaseLifePlayer(int lostLife)
     {
-        nbLifeCurrent = nbLifeCurrent-lostLife;
-        DisplayLifeOrScore.SetText("Vie: "+nbLifeCurrent);
-        if (nbLifeCurrent<=0)
+        _nbLifeCurrent = _nbLifeCurrent-lostLife;
+        _DisplayLifeOrScore.SetText("Vie: "+_nbLifeCurrent);
+        if (_nbLifeCurrent<=0)
         {
             dead = true;
             if (gameObject.name == "Player1")
@@ -183,20 +185,20 @@ public class Player : MonoBehaviour
 
     public void SetLifePlayer(float nbLife)
     {
-        nbLifeCurrent = nbLife;
-        DisplayLifeOrScore.SetText("Vie: " + nbLifeCurrent);
+        _nbLifeCurrent = nbLife;
+        _DisplayLifeOrScore.SetText("Vie: " + _nbLifeCurrent);
     }
 
     public void SetScorePlayer(int score)
     {
         scorekill = score;
-        DisplayLifeOrScore.SetText("Score: " + scorekill);
+        _DisplayLifeOrScore.SetText("Score: " + scorekill);
     }
 
     public void IncreaseScorePlayer(int score)
     {
         scorekill = scorekill+score;
-        DisplayLifeOrScore.SetText("Score: " + scorekill);
+        _DisplayLifeOrScore.SetText("Score: " + scorekill);
     }
 
 }
